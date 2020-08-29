@@ -1,5 +1,7 @@
-# import puzzle from puzzleAPI
+## Author: Jad Haddad
+
 import puzzleAPI
+import time
 
 """
 #manually entered puzzle
@@ -15,31 +17,30 @@ puzzle = [
     [0, 4, 9, 2, 0, 6, 0, 0, 7]
 ]
 """
-# puzzle taken from puzzleAPI file
-puzzle = puzzleAPI.puzzle
-
-# solvedPuzzle FOR TESTING taken from puzzleAPI file
-solvedPuzzle = puzzleAPI.solvedPuzzle
+# Main variables
+easy = 4
+medium = 5
+hard = 6
+(puzzle, solvedPuzzle) = puzzleAPI.getPuzzle(easy)
 
 # printPuzzle prints a 2D array puzzle in a neat format
 
 
 def printPuzzle(puz):
-    # we loop through each column
     for i in range(len(puz)):
         # seperating boxes horizontally
         if(i % 3 == 0 and i != 0):
-            # accouting for vertical seperation + 3
             print((len(puz[i]) * 2 + 3) * "-")
-        # then through each number in that column
+
         for j in range(len(puz[i])):
             # seperating boxes vertically
             if((j % 3 == 0) and j != 0):
                 print("| " + str(puz[i][j]), end=" ")
-            # printing numbers between vertical seperation
+
             elif(j != (len(puz[i]) - 1)):
                 print(puz[i][j], end=" ")
-            # last number in a row to print a new line
+
+            # last number in row
             else:
                 print(puz[i][j])
 
@@ -47,14 +48,13 @@ def printPuzzle(puz):
 
 
 def emptyBlock(puz):
-    # loop through rows
     for i in range(len(puz)):
-        # loop through numbers
+        # return first empty block we find
         for j in range(len(puz[i])):
-            # first empty block we find we directly return the position
             if(puz[i][j] == 0):
                 return (i, j)
-    # if we couldn't find a value we solved the puzzle
+
+    # no blocks are empty
     return None
 
 # Check if number in certain index is valid as to respect the rules of sudoku
@@ -62,28 +62,23 @@ def emptyBlock(puz):
 
 
 def numValid(puz, num, index):
-    # Check Row
+    # Check row for duplicate
     for i in range(len(puz[0])):
-        # if any num in the row EXCEPT the num we are checking to be valid = to that num
         if(puz[index[0]][i] == num and index[1] != i):
-            # we would return false
-            return False
-    # Check Column
-    for j in range(len(puz)):
-        # we any num in the column EXCEPT the num we are checking to be valid = to that num
-        if(puz[i][index[1]] == num and index[0] != i):
-            # we would return false
             return False
 
-    # CHECK BOX MAKE IT
+    # Check column for duplicate
+    for j in range(len(puz)):
+        if(puz[j][index[1]] == num and index[0] != i):
+            return False
+
+    # Check box for duplicate
     for k in range((index[0] // 3) * 3, (index[1] // 3) * 3 + 3):
         for l in range((index[1] // 3) * 3, (index[0] // 3) * 3 + 3):
-            #if any num in the box EXCEPT the num we are checking to be valid = to that num
             if(puz[k][l] == num and (k, l) != index):
-                # we would return false
                 return False
-    
-    #If false not returned the number we are placing is valid
+
+    # Number is valid
     return True
 
 # Solve puzzle
@@ -113,10 +108,14 @@ def solvePuzzle(puz):
     # we reset to 0 and the previous block continues to 9
     return False
 
+
 print("\nAPI Generated Puzzle:")
 printPuzzle(puzzle)
 print("\nAPI Solved Puzzle:")
 printPuzzle(solvedPuzzle)
 print("\nAlgorithmicly Solved Puzzle:")
+# start time
+start_time = time.time()
 solvePuzzle(puzzle)
+print("--- solved in %s seconds ---" % (time.time() - start_time))
 printPuzzle(puzzle)
