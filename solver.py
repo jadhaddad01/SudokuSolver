@@ -43,13 +43,56 @@ def printPuzzle(puz):
             else:
                 print(puz[i][j])
 
+# Find next empty block
+
+
+def emptyBlock(puz):
+    # loop through rows
+    for i in range(len(puz)):
+        # loop through numbers
+        for j in range(len(puz[i])):
+            # first empty block we find we directly return the position
+            if(puz[i][j] == 0):
+                return (i, j)
+    # if we couldn't find a value we solved the puzzle
+    return None
+
+# Check if number in certain index is valid as to respect the rules of sudoku
+# No same num in same row Or column Or box
+
+
+def numValid(puz, num, index):
+    # Check Row
+    for i in range(len(puz[0])):
+        # if any num in the row EXCEPT the num we are checking to be valid = to that num
+        if(puz[index[0]][i] == num and index[1] != i):
+            # we would return false
+            return False
+    # Check Column
+    for j in range(len(puz)):
+        # we any num in the column EXCEPT the num we are checking to be valid = to that num
+        if(puz[i][index[1]] == num and index[0] != i):
+            # we would return false
+            return False
+
+    # CHECK BOX MAKE IT
+    for k in range((index[0] // 3) * 3, (index[1] // 3) * 3 + 3):
+        for l in range((index[1] // 3) * 3, (index[0] // 3) * 3 + 3):
+            #if any num in the box EXCEPT the num we are checking to be valid = to that num
+            if(puz[k][l] == num and (k, l) != index):
+                # we would return false
+                return False
+    
+    #If false not returned the number we are placing is valid
+    return True
+
 # Solve puzzle
 
 
-def solve(puz):
+def solvePuzzle(puz):
     # Base Case finding the next empty block, and if no empty block is found we return true
     nextEmpty = emptyBlock(puz)
-    if nextEmpty == None:
+    if not nextEmpty:
         # puzzle loved
         return True
     else:
@@ -61,7 +104,7 @@ def solve(puz):
         if(numValid(puz, num, (row, column))):
             puzzle[row][column] = num
             # recursive call to solve this block
-            if(solve(puz)):
+            if(solvePuzzle(puz)):
                 return True
             # we reset the block to 0 if no num worked
             puz[row][column] = 0
@@ -70,7 +113,10 @@ def solve(puz):
     # we reset to 0 and the previous block continues to 9
     return False
 
-
+print("\nAPI Generated Puzzle:")
 printPuzzle(puzzle)
-print()
+print("\nAPI Solved Puzzle:")
 printPuzzle(solvedPuzzle)
+print("\nAlgorithmicly Solved Puzzle:")
+solvePuzzle(puzzle)
+printPuzzle(puzzle)
