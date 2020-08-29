@@ -9,7 +9,7 @@ conn = http.client.HTTPSConnection("online-sudoku.p.rapidapi.com")
 
 headers = {
     'x-rapidapi-host': "online-sudoku.p.rapidapi.com",
-    'x-rapidapi-key': "4423dd6a18msh77e7bbdfc9584b4p153abdjsn96f9b7cc4dd5"
+    'x-rapidapi-key': "ENTERYOUROWNKEY"
 }
 
 conn.request("GET", "/random", headers=headers)
