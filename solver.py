@@ -21,7 +21,6 @@ puzzle = [
 easy = 4
 medium = 5
 hard = 6
-(puzzle, solvedPuzzle) = puzzleAPI.getPuzzle(easy)
 
 # printPuzzle prints a 2D array puzzle in a neat format
 
@@ -69,7 +68,7 @@ def numValid(puz, num, index):
 
     # Check column for duplicate
     for j in range(len(puz)):
-        if(puz[j][index[1]] == num and index[0] != i):
+        if(puz[j][index[1]] == num and index[0] != j):
             return False
 
     # Check box for duplicate
@@ -108,12 +107,12 @@ def solvePuzzle(puz):
     # we reset to 0 and the previous block continues to 9
     return False
 
-
+(puzzle, solvedPuzzle) = puzzleAPI.getPuzzle(hard)
 print("\nAPI Generated Puzzle:")
 printPuzzle(puzzle)
 print("\nAPI Solved Puzzle:")
 printPuzzle(solvedPuzzle)
-print("\nAlgorithmicly Solved Puzzle:")
+print("\nAlgorithmicaly Solved Puzzle:")
 # start time
 start_time = time.time()
 solvePuzzle(puzzle)

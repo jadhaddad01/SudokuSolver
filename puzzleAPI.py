@@ -7,27 +7,27 @@ from random import sample
 import http.client
 import ast
 
-conn = http.client.HTTPSConnection("online-sudoku.p.rapidapi.com")
-
-headers = {
-    'x-rapidapi-host': "online-sudoku.p.rapidapi.com",
-    'x-rapidapi-key': "ENTERYOUROWNKEY"
-}
-
-conn.request("GET", "/random", headers=headers)
-
-res = conn.getresponse()
-data = res.read()
-
-# dictionary parsed from string then item taken
-puzzleApi = ast.literal_eval((data.decode("utf-8")))
-puzzleNums = puzzleApi.get("item")
-# End of sudoku api request
-
-# creating 1D matrix from puzzleNums
-matrix = [puzzleNums[i*9: (i+1)*9] for i in range(9)]
-
 def getPuzzle(difficulty):
+    conn = http.client.HTTPSConnection("online-sudoku.p.rapidapi.com")
+
+    headers = {
+        'x-rapidapi-host': "online-sudoku.p.rapidapi.com",
+        'x-rapidapi-key': "ENTERYOUROWNKEY"
+    }
+
+    conn.request("GET", "/random", headers=headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    # dictionary parsed from string then item taken
+    puzzleApi = ast.literal_eval((data.decode("utf-8")))
+    puzzleNums = puzzleApi.get("item")
+    # End of sudoku api request
+
+    # creating 1D matrix from puzzleNums
+    matrix = [puzzleNums[i*9: (i+1)*9] for i in range(9)]
+
     puzzle = []
     solvedPuzzle = []
     # loop through each row
