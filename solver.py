@@ -96,7 +96,7 @@ def solvePuzzle(puz):
     for num in range(1, 10):
         # Add numb in block if valid
         if(numValid(puz, num, (row, column))):
-            puzzle[row][column] = num
+            puz[row][column] = num
             # recursive call to solve this block
             if(solvePuzzle(puz)):
                 return True
@@ -118,3 +118,15 @@ start_time = time.time()
 solvePuzzle(puzzle)
 print("--- solved in %s seconds ---" % (time.time() - start_time))
 printPuzzle(puzzle)
+
+(puzzle1, solvedPuzzle1) = puzzleAPI.getPuzzle(hard)
+print("\nAPI Generated Puzzle:")
+printPuzzle(puzzle1)
+print("\nAPI Solved Puzzle:")
+printPuzzle(solvedPuzzle1)
+print("\nAlgorithmicaly Solved Puzzle:")
+# start time
+start_time1 = time.time()
+solvePuzzle(puzzle1)
+print("--- solved in %s seconds ---" % (time.time() - start_time1))
+printPuzzle(puzzle1)
